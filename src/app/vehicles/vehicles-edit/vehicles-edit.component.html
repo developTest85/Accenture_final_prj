@@ -1,0 +1,54 @@
+<br>
+<div id="edit" class="col-md-12" style="background-color: coral; border-radius: 4px;">
+    <form [formGroup]="vehicleForm" style="padding-top:10px;" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <label for="model">Modello</label>
+                <input #model type="text" id="model" formControlName="model" class="form-control">
+                <span *ngIf="!vehicleForm.get('model').valid" style="color: red;">
+                        <span *ngIf="vehicleForm.get('model').errors['maxlength']">Il campo contiene troppi caratteri!</span>
+                        <span *ngIf="vehicleForm.get('model').errors['required'] && vehicleForm.get('model').touched">Il campo è richiesto!</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="code">Targa</label>
+                <input type="text" id="code" formControlName="code" class="form-control">
+                <span *ngIf="!vehicleForm.get('code').valid " style="color: red;" class="help-block">
+                    <span *ngIf="vehicleForm.get('code').errors['vehicleIsForbidden']" style="color: red;">This car is already in the list!</span>
+                    <span *ngIf="vehicleForm.get('code').errors['maxlength']">Il campo contiene troppi caratteri!</span>
+                    <span *ngIf="vehicleForm.get('code').errors['minlength']">Il campo contiene pochi caratteri!</span>
+                    <span *ngIf="vehicleForm.get('code').errors['required'] && vehicleForm.get('code').touched">Il campo è richiesto!</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="year">Anno di immatricolazione</label>
+                <input type="number" id="year" formControlName="year" class="form-control">
+                <span *ngIf="!vehicleForm.get('year').valid"  style="color: red;">
+                        <span *ngIf="vehicleForm.get('year').errors['minlength']">Il campo contiene pochi caratteri!</span>
+                        <span *ngIf="vehicleForm.get('year').errors['required'] && vehicleForm.get('year').touched">Il campo è richiesto!</span>
+                </span>
+            </div>
+            <div class="form-group">
+                    <label for="amount">Prezzo</label>
+                    <input type="number" id="amount" formControlName="amount" class="form-control">
+                    <span *ngIf="!vehicleForm.get('amount').valid && vehicleForm.get('amount').touched"  style="color: red;">Il campo è richiesto</span>
+                </div>
+            <div class="form-group">
+                <label for="imageUrl">Url Immagine</label>
+                <input type="text" id="imageUrl" formControlName="imageUrl" class="form-control">
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-5">
+                    <button type="submit" class="btn btn-sm btn-primary btn-block btn-signin" [disabled]="!vehicleForm.valid">Salva</button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btn-danger" type="button" (click)="closeEdit()">Annulla</button>
+                </div>
+                <!--<div class="col-md-3">
+                    <button class="btn btn-sm btn-danger" type="button" (click)="resetEdit(form)">Reset</button>
+                </div>-->
+            </div>
+            <br>
+        </form>
+</div>
