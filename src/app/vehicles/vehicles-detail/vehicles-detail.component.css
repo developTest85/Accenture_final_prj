@@ -1,0 +1,17 @@
+#header {
+    text-align: center;
+}
+
+.container {
+    background-color: coral;
+    border-radius: 4px;
+}
+
+#img-modal{
+    width: 250px;
+    align-content: center;
+}
+
+#body {
+    padding-top: 50px;
+}

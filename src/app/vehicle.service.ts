@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Vehicle } from './shared/vehicle.model';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: "root" })
@@ -10,7 +10,8 @@ export class VehicleService {
 
     editMode = new Subject<boolean>();
 
-    index = new Subject<number>();
+    //index = new Subject<number>();
+    index = new BehaviorSubject<number>(null);
 
     vehicles: Vehicle[] = [
         new Vehicle('Fiat Punto', "NA-853RS", 2007, 3800.30, "https://pic02.caraffinity.it/52/77/big/fiat-punto-img-20190111040338.jpg"),
@@ -21,9 +22,9 @@ export class VehicleService {
     constructor(private http: HttpClient) { }
 
     getVehicles() {
-        this.http.get('assets/mock-vehicles.json').toPromise().then(response => {
+        /*this.http.get('assets/mock-vehicles.json').toPromise().then(response => {
             console.log(response)
-        });
+        });*/
         return this.vehicles;
     }
 

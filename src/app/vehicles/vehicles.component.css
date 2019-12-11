@@ -1,0 +1,23 @@
+#list {
+    background-color: tomato;
+}
+
+#header-modal {
+    text-align: center;
+}
+
+#modal-body {
+    background-color: royalblue;
+}
+
+#img-modal {
+    max-height: 200px;
+}
+
+#img-list {
+    max-height: 100px;
+}
+
+.btn {
+    font-size:18px
+}

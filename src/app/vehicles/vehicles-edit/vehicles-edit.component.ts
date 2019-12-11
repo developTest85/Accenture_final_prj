@@ -17,6 +17,10 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
 
   @Input() index: number = null;
   @Output() vehicleEm = new EventEmitter<Vehicle>();
+  @Output() price = new EventEmitter<number>();
+  @Output() model = new EventEmitter<string>();
+
+  @Output() visible = new EventEmitter<boolean>()
 
 
   constructor(private vehicleService: VehicleService, private router: Router) { }
@@ -56,9 +60,22 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
 
     }
     else {
+      let oldPrice = this.vehicleService.getVehicle(this.index).amount;
+
+      let price = this.vehicleForm.value.amount;
+      let model = this.vehicleForm.value.model;
+      if (price !== oldPrice) {
+        console.log("TRUE");
+        this.price.emit(price);
+        this.model.emit(model);
+      } else {
+        this.visible.emit(false);
+      }
+
       this.vehicleService.updateVehicle(this.index, this.vehicleForm.value);
-      this.editMode = false;
-      this.vehicleForm.reset();
+      //this.editMode = false;
+      //this.vehicleForm.reset();
+
     }
 
   }
@@ -134,11 +151,11 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
       let codes = [];
 
       vehiclesFiltered.forEach(vehicle => {
-        if (vehicle.code !== code){
+        if (vehicle.code !== code) {
           codes.push(vehicle.code)
         };
       });
-      
+
       if (codes.indexOf(control.value) !== -1) {
         console.log("TRUEEEEEEE");
         return { 'vehicleIsForbidden': true };

@@ -1,0 +1,33 @@
+<br>
+<div class="container">
+    <br>
+    <div>
+        <button class="fa fa-close" (click)="onClose()"></button>
+    </div>
+    <div class="row" id="header">
+        <div class="col-md-12">
+            <h1>{{vehicle.model}}</h1>
+        </div>
+    </div>
+    <div class="row" id="body">
+        <div class="col-md-12">
+            <div class="row">
+                <p >Targa: {{vehicle.code}}</p><br>
+            </div>
+            <div class="row">
+                <p >Anno di Immatricolazione: {{vehicle.year}}</p><br>
+            </div>
+            <div class="row">
+                <p >Data di inserimento: {{vehicle.date | date: 'longDate' }}</p><br>
+            </div>
+            <div class="row">
+                <p >Prezzo: {{vehicle.amount | currency: 'EUR'}}</p><br>
+            </div>
+            <div class="row">
+                <span>
+                    <img [src]="vehicle.imageUrl" id="img-modal" class="img-responsive">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

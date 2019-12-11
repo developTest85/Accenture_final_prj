@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { HomeComponent } from './home/home.component';
 import { VehiclesEditComponent } from './vehicles/vehicles-edit/vehicles-edit.component';
+import { VehiclesResolverService } from './shared/vehicles-resolver.service';
+import { VehiclesDetailComponent } from './vehicles/vehicles-detail/vehicles-detail.component';
 
 
 const routes: Routes = [
@@ -11,8 +13,8 @@ const routes: Routes = [
   {
     path: 'vehicles',
     component: VehiclesComponent,
-    children: [
-      { path: 'edit', component: VehiclesEditComponent }
+    children : [
+      {path: ':id', component: VehiclesDetailComponent}
     ]
   },
   { path: '**', redirectTo: '/home' }

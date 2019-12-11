@@ -2,3 +2,16 @@ input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
 
+#edit{
+  background-color: coral;
+  border-radius: 4px;
+}
+
+#form{
+  padding-top:10px;
+}
+
+span{
+  color: red;
+}
+

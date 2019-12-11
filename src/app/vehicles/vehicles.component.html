@@ -1,5 +1,12 @@
 <div class="container">
     <div class="row">
+        <div class="col-md-12">
+            <app-alert *ngIf="visible" [priceChanged]="priceChanged" [vehicleModel]="vehicleModel"
+                (visible)="onChangeView($event)"></app-alert>
+            <br>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-7">
             <div>
                 <button class="btn btn-success" (click)="onNewVehicle()">Aggiungi Veicolo</button>
@@ -10,40 +17,67 @@
         <div class="col-md-7">
             <br>
             <ul class="list-group">
-                <li *ngFor="let vehicle of vehicles; let i = index" class="list-group-item clearfix"
-                    style="background-color: tomato;">
-                    <div class="float-left">
-                        <h4 class="list-group-item-heading">{{vehicle.model}}</h4>
-                        <p class="list-group-item-text">Targa: {{vehicle.code}}</p>
-                        <p class="list-group-item-text">Anno di Immatricolazione: {{vehicle.year}}</p>
-                        <p class="list-group-item-text">Prezzo: {{vehicle.amount | currency: 'EUR'}}</p>
-                        <p class="list-group-item-text">Data di inserimento: {{vehicle.date | date: 'longDate' }}</p>
-                        <button class="btn" aria-hidden="true" (click)="onUpdateVehicle(i)"><i class="fa fa-pencil"
-                                style="font-size:36px"></i></button>
-                        <button class="btn" aria-hidden="true" (click)="onDeleteVehicle(i)"><i class="fa fa-trash"
-                                style="font-size:36px"></i></button>
+
+                <li *ngFor="let vehicle of vehicles; let i = index" id="list" class="list-group-item clearfix">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <!--<a style="cursor: pointer;" [routerLink]="[i]" routerLinkActive="active"
+                                class="list-group-item clearfix">-->
+                            <div class="float-left">
+                                <h4 class="list-group-item-heading">{{vehicle.model}}</h4>
+                                <p class="list-group-item-text">Targa: {{vehicle.code}}</p>
+                                <p class="list-group-item-text">Anno di Immatricolazione: {{vehicle.year}}</p>
+                                <p class="list-group-item-text">Prezzo: {{vehicle.amount | currency: 'EUR'}}</p>
+                                <p class="list-group-item-text">Data di inserimento:
+                                    {{vehicle.date | date: 'longDate' }}
+                                </p>
+                                <button class="btn" aria-hidden="true" (click)="onUpdateVehicle(i)"><i
+                                        class="fa fa-pencil"></i></button>
+                                <button class="btn" aria-hidden="true" (click)="onDeleteVehicle(i)"><i
+                                        class="fa fa-trash"></i></button>
+                                <button class="btn" aria-hidden="true"><i class="fa fa-info"
+                                        (click)="onOpenDetail(i)"></i></button>
+                            </div>
+
+                            <!--</a>-->
+                        </div>
+                        <div class="col-md-5">
+                            <span class="float-right">
+                                <a><img [src]="vehicle.imageUrl" id="img-list" alt="{{ vehicle.model }}"
+                                        class="img-responsive" (click)="open(content, vehicle)">
+                                </a>
+                            </span>
+                        </div>
                     </div>
-                    <span class="float-right">
-                        <a><img [src]="vehicle.imageUrl" alt="{{ vehicle.model }}" class="img-responsive"
-                                style="max-height: 100px;" (click)="open(content, vehicle)">
-                        </a>
-                    </span>
+
+
                 </li>
             </ul>
-
         </div>
+        <br>
         <div class="col-md-5">
-            <app-vehicles-edit *ngIf="edit" [index]="index" (vehicleEm)="addVehicle($event)"></app-vehicles-edit>
+            <app-vehicles-edit *ngIf="edit" [index]="index" (vehicleEm)="addVehicle($event)"
+                (model)="setChangedVehicle($event)" (price)="onShowChange($event)" (visible)="notChanged()">
+            </app-vehicles-edit>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <app-vehicles-detail *ngIf="detail" [index]="index" (detail)="closeDetail($event)" >
+                </app-vehicles-detail>
+            </div>
         </div>
     </div>
 
+    <br>
+    <router-outlet></router-outlet>
+
     <ng-template #content let-modal>
         <div class="modal-header">
-            <h1 style="text-align: center;">{{model}}</h1>
+            <h1 id="header-modal">{{model}}</h1>
             <button type="button" class="fa fa-window-close" aria-label="Close"
                 (click)="modal.dismiss('Cross click')"></button>
         </div>
-        <div class="modal-body" style="background-color: royalblue;">
+        <div class="modal-body" id="modal-body">
             <div class="row">
                 <div class="col-md-5">
                     <p class="list-group-item-text">Targa: {{code}}</p>
@@ -51,7 +85,7 @@
                 </div>
                 <div class="col-md-7">
                     <span class="float-right">
-                        <img [src]="imageUrl" class="img-responsive" style="max-height: 200px;">
+                        <img [src]="imageUrl" id="img-modal" class="img-responsive">
                     </span>
                 </div>
             </div>
@@ -62,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer" >
+        <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
         </div>
     </ng-template>

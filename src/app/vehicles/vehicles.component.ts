@@ -14,6 +14,10 @@ export class VehiclesComponent implements OnInit {
 
   index: number = null;
   editeMode = false;
+
+  visible:boolean = false;
+  detail: boolean = false;
+  priceChanged: number;
   
   model: string;
   code: string;
@@ -23,6 +27,7 @@ export class VehiclesComponent implements OnInit {
   date: Date;
 
   vehicles: Vehicle[] = [];
+  vehicleModel: string;
 
   subscription = new Subscription
 
@@ -81,6 +86,36 @@ export class VehiclesComponent implements OnInit {
 
   addVehicle(vehicle: Vehicle) {
     this.vehicleService.addVehicle(vehicle);
+  }
+
+  onUpdateMessage(){
+    this.visible = null;
+  }
+
+  onShowChange(price: number){
+    this.priceChanged = price;
+    this.visible = true;
+  }
+
+  onChangeView(visible: boolean){
+    this.visible = visible;
+  }
+
+  setChangedVehicle(model: string){
+    this.vehicleModel = model;
+  }
+
+  notChanged(visible:boolean){
+    this.visible = visible;
+  }
+
+  onOpenDetail(index: number){
+    this.index = index;
+    this.detail = true;
+  }
+
+  closeDetail(visible: boolean){
+    this.detail = visible;
   }
 
 }
