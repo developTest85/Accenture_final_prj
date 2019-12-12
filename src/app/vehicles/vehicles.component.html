@@ -60,16 +60,14 @@
                 (model)="setChangedVehicle($event)" (price)="onShowChange($event)" (visible)="notChanged()">
             </app-vehicles-edit>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <app-vehicles-detail *ngIf="detail" [index]="index" (detail)="closeDetail($event)" >
-                </app-vehicles-detail>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <app-vehicles-detail *ngIf="detail" [index]="index" (detail)="closeDetail($event)" >
+            </app-vehicles-detail>
         </div>
     </div>
 
-    <br>
-    <router-outlet></router-outlet>
 
     <ng-template #content let-modal>
         <div class="modal-header">
