@@ -9,8 +9,7 @@
 
 #img-modal{
     width: 250px;
-    padding-left: 20%;
-    padding-bottom: 10px;
+    align-content: center;
 }
 
 #body {
