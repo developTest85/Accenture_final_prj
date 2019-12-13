@@ -15,7 +15,7 @@ export class VehiclesDetailComponent implements OnChanges, OnInit {
 
   @Output() detail =  new EventEmitter<boolean>()
 
-  constructor(private route: ActivatedRoute, 
+  constructor(private route: ActivatedRoute,
               private router: Router,
               private vehicleService: VehicleService) { }
 

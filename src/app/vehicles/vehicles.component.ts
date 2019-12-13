@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Vehicle } from '../shared/vehicle.model';
 import { VehicleService } from '../vehicle.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.css']
 })
-export class VehiclesComponent implements OnInit {
+export class VehiclesComponent implements OnInit, OnDestroy {
 
   index: number = null;
   editeMode = false;
@@ -42,7 +42,7 @@ export class VehiclesComponent implements OnInit {
 
 
     this.vehicles = this.vehicleService.getVehicles();
-    this.vehicleService.edit.subscribe(edit => {
+    this.subscription = this.vehicleService.edit.subscribe(edit => {
       this.edit = edit;
     });
   }
@@ -64,19 +64,27 @@ export class VehiclesComponent implements OnInit {
 
   onNewVehicle(){
     this.edit = true;
+    this.index = null;
+    this.vehicleService.index.next(this.index);
+    console.log(this.index);
+
     this.vehicleService.editMode.next(false);
   }
 
 
   onUpdateVehicle(index: number) {
 
-    if (index !== null) {
+    if (this.index !== index) {
+      console.log("INTO IF");
       this.index = index;
       this.vehicleService.editMode.next(true);
       this.vehicleService.index.next(index);
 
       this.edit = true;
-    } 
+    } else {
+      console.log("OUT IF");
+    }
+    
 
   }
   
@@ -116,6 +124,10 @@ export class VehiclesComponent implements OnInit {
 
   closeDetail(visible: boolean){
     this.detail = visible;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

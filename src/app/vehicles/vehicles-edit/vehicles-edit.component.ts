@@ -1,15 +1,16 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, OnDestroy } from '@angular/core';
 import { Vehicle } from 'src/app/shared/vehicle.model';
 import { NgForm, FormGroup, FormControl, Validators, FormBuilder, MaxLengthValidator } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VehicleService } from 'src/app/vehicle.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-vehicles-edit',
   templateUrl: './vehicles-edit.component.html',
   styleUrls: ['./vehicles-edit.component.css']
 })
-export class VehiclesEditComponent implements OnInit, OnChanges {
+export class VehiclesEditComponent implements OnInit, OnChanges, OnDestroy {
 
   vehicleForm: FormGroup;
   editMode: boolean = false;
@@ -22,17 +23,19 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
 
   @Output() visible = new EventEmitter<boolean>()
 
+  editSubscription: Subscription;
+  indexSubscription: Subscription;
 
   constructor(private vehicleService: VehicleService, private router: Router) { }
 
   ngOnChanges() {
-    this.vehicleService.editMode.subscribe(editMode => {
+    this.editSubscription = this.vehicleService.editMode.subscribe(editMode => {
       this.editMode = editMode;
       if (this.editMode === false) {
         this.vehicleForm.reset();
       }
     })
-    this.vehicleService.index.subscribe(index => {
+    this.indexSubscription = this.vehicleService.index.subscribe(index => {
       this.index = index;
     })
 
@@ -55,7 +58,7 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
 
     if (this.editMode === false) {
       this.emit(this.vehicleForm.value);
-      console.log(this.vehicleForm);
+      //console.log(this.vehicleForm);
       this.vehicleForm.reset();
 
     }
@@ -138,10 +141,8 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
         codes.push(vehicle.code)
       });
       if (codes.indexOf(control.value) !== -1) {
-        console.log("TRUEEEEEEE");
         return { 'vehicleIsForbidden': true };
       }
-      console.log("FALSEEEEEEEEEEEEEE");
       return null;
 
     } else {
@@ -164,6 +165,11 @@ export class VehiclesEditComponent implements OnInit, OnChanges {
       return null;
     }
 
+  }
+
+  ngOnDestroy() {
+    this.editSubscription.unsubscribe();
+    this.indexSubscription.unsubscribe();
   }
 
 }
